@@ -1,4 +1,0 @@
-Clubs 
-Hearts jack
-Spades 
-Diamonds ace

@@ -1,9 +1,0 @@
-package ss.week6.vote;
-
-import java.awt.*;
-
-import javax.swing.JFrame;
-
-public class VoteFrame extends JFrame{
-
-}

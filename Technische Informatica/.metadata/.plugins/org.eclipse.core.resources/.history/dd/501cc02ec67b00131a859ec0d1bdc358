@@ -1,3 +1,0 @@
-1.	public PrintWriter(File file) (throws FileNotFoundException if file doens't exist)
-	BufferedReader in = new BufferedReader(new FileReader("foo.in"));
-2.	

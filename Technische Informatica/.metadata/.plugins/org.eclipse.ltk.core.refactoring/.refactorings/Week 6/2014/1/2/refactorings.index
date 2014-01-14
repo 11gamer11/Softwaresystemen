@@ -1,5 +1,0 @@
-1389068061579	Convert local variable 'in' to field
-1389070023167	Extract local variable 'scanner'
-1389070062173	Convert local variable 'scanner' to field
-1389070979051	Convert local variable 'line' to field
-1389561140075	Rename resource 'Opdr-6.4'

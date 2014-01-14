@@ -1,9 +1,0 @@
-package ss.week6;
-
-public class ToofewArgumentsException extends WrongArgumentException{
-
-	public ToofewArgumentsException(){
-		"error: must pass two command line arguments"
-	}
-	
-}

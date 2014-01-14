@@ -1,0 +1,38 @@
+package ss.week6.vote;
+
+import java.awt.*;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class VoteFrame extends JFrame{
+
+	 private JButton vote1, vote2, vote3, vote4, vote5;
+	 private JLabel choice, voted;
+	
+	public VoteFrame() {
+	    super("JFrameDemo");
+	    init();
+	}
+	
+	private void init() {
+	    Container c = getContentPane();
+	    c.setLayout(new FlowLayout());
+	    choice = new JLabel("Choose a party\n");
+	    vote1 = new JButton("ONE\n");
+	    vote2 = new JButton("ONE\n");
+	    vote3 = new JButton("ONE\n");
+	    vote4 = new JButton("ONE\n");
+	    vote5 = new JButton("ONE\n");
+	    vote1.addActionListener(this); // object listens to 
+	    vote2.addActionListener(this); // object listens to 
+	    vote3.addActionListener(this); // object listens to 
+	    vote4.addActionListener(this); // object listens to 
+	    vote5.addActionListener(this); // object listens to 
+	    c.add(b1); c.add(b2);       // add buttons
+	    c.add(lb);
+	    setSize(300,200); setVisible(true);
+	}
+	
+}

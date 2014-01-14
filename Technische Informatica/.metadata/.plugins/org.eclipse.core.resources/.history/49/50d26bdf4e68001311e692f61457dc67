@@ -1,0 +1,13 @@
+package ss.week4;
+
+public class IntSet {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

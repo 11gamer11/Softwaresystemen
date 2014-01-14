@@ -1,0 +1,24 @@
+package Rectangle;
+
+public class RectangleTest {
+		
+	private Rectangle info;
+	
+	public void testInfo() {
+		System.out.println("Setting test:");
+		System.out.println("Length: " + info.length());
+		System.out.println("Width: " + info.width());
+		System.out.println("Area: " + info.area());
+		System.out.println("Perimeter: " + info.perimeter());
+		
+	}
+	
+	public TestRect() {
+		info = new Rectangle(50,10);
+	}
+	
+	public void doTest() {
+		testInfo();
+	}
+
+}

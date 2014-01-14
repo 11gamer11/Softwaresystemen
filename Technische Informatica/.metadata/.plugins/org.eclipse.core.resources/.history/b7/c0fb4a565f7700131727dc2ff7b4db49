@@ -1,0 +1,38 @@
+package ss.week6;
+
+import java.util.Scanner;
+
+public class Words {
+	private static Scanner input;
+	private static Scanner line;
+	private static Scanner check;
+	
+	public static void main(String[] args) {
+		input = new Scanner (System.in);
+		System.out.print("Line (or \"end\"): ");
+		while (input.hasNextLine()){
+			String nextline = input.nextLine();
+			line = new Scanner(nextline);
+			check = new Scanner(nextline);
+			if(check.hasNext() && check.next().equals("end")){
+				line.close();
+				check.close();
+				System.out.print("End of prgrammme.");
+				break;
+			}else{
+				if(!line.hasNext()){
+					System.out.println("No Words!");
+				}else{
+					int i = 1;
+					while(line.hasNext()){
+						String word = line.next();
+						System.out.println("Word "+i+": "+word);
+						i++;
+					}
+				}
+			System.out.print("Line (or \"end\"): ");
+			}
+
+		}
+	}
+}

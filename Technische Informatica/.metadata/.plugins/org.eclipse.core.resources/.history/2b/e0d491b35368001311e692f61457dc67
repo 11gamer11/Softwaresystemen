@@ -1,0 +1,24 @@
+package ss.week4;
+
+public class Exponent implements Function{
+	
+	private int e;
+	
+	public Exponent(int e){
+		this.e = e;
+	}
+	
+	public int apply(int x) {
+		return (int) Math.pow(x,this.e);
+	}
+
+	public Function derivative() {
+		Function exponent = new Exponent(e-1);
+		return exponent;
+	}
+	
+	public String toString(){
+		return ("f(x)=x^"+e);	
+	}
+
+}

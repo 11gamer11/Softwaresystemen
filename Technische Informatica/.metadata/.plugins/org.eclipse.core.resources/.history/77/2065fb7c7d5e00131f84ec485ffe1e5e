@@ -1,0 +1,153 @@
+package ss.week2.test;
+
+import ss.week2.hotel.Safe;
+
+/** 
+ * Testprogram Password.
+ * Lab exercise Softwaresystems
+ * @author Arend Rensink
+ * @version $Revision: 1.2 $
+ */
+public class SafeTest {
+    /** Testvariabele for a <tt>Password</tt> object. */
+	public Safe safe;
+
+    /** Number of errors. */
+    private int errors;
+    /** Notice belonging to test method. */
+    private boolean isPrinted;
+    /** Indication that an errors was found in test method. */
+    private String description;
+
+    /** Calls all tests in this class one-by-one. */
+    public int runTest() {
+        System.out.println("Testclass: " + this.getClass());
+        setUp();
+        testActivateIncorrectPass();
+        setUp();
+        testOpenIncorrectPass();
+        setUp();
+        testActivateCorrectPass();
+        setUp();
+        testOpenCorrectPass();
+        if (errors == 0) {
+            System.out.println("    OK");
+        }
+        return errors;
+    }
+
+    /**
+     * Sets the instance variable <tt>pass</tt> to a well-defined initial value.
+     * All test methods should be preceded by a call to this method.
+     */
+    public void setUp() {
+        // initialisation of safe-variable
+    	safe = new Safe();
+    }
+
+    /**
+     * 
+     */
+    public void testActivateIncorrectPass() {
+        beginTest("Method isActive, active and deactive with incorrect pass");
+        assertEquals("safe.isActive()", 
+                     false, safe.isActive());
+        safe.Active("WrongPass");
+        assertEquals("safe.isActive()", 
+        			 false, safe.isActive());
+        safe.DeActive();
+        assertEquals("safe.isActive()", 
+        			false, safe.isActive());
+    }
+
+    /**
+     * 
+     */
+    public void testOpenIncorrectPass() {
+        beginTest("Method isOpen, open and close with incorrect pass");
+        assertEquals("safe.isOpen()", 
+                     false, safe.isOpen());
+        safe.Open("WrongPass");
+        assertEquals("safe.isOpen()", 
+                	false, safe.isOpen());       
+        safe.Close();
+        assertEquals("safe.isOpen()", 
+                	false, safe.isOpen());
+    }
+
+    /**
+     * 
+     */
+    public void testActivateCorrectPass() {
+        beginTest("Method isActive, active and deactive with correct pass");
+        assertEquals("safe.isActive()", 
+                     false, safe.isActive());
+        safe.Active(safe.Password);
+        assertEquals("safe.isActive()", 
+        			 true, safe.isActive());
+        safe.DeActive();
+        assertEquals("safe.isActive()", 
+        			false, safe.isActive());
+    }
+
+    /**
+     * 
+     */
+    public void testOpenCorrectPass() {
+        beginTest("Method isOpen, open and close with correct pass");
+        assertEquals("safe.isOpen()", 
+                     false, safe.isOpen());
+        safe.Open(safe.Password);
+        assertEquals("safe.isOpen()", 
+                	true, safe.isOpen());       
+        safe.Close();
+        assertEquals("safe.isOpen()", 
+                	false, safe.isOpen());
+    }
+
+    /**
+     * Fixes the status for the testmethod's description.
+     * @param text The description to be printed
+     */
+    private void beginTest(String text) {
+        description = text;
+        // the description hasn't been printed yet
+        isPrinted = false;
+    }
+
+    /**
+     * Tests if the resulting value of a tested expression equals the 
+     * expected (correct) value. This implementation prints both values, 
+     * with an indication of what was tested, to the standard output. The 
+     * implementation does not actually do the comparison.
+     */
+    private void assertEquals(String text, Object expected, Object result) {
+        boolean equal;
+        // tests equality between expected and result
+        // accounting for null
+        if (expected == null) {
+            equal = result == null;
+        } else {
+            equal = result != null && expected.equals(result);
+        }
+        if (!equal) {
+            // prints the description if necessary
+            if (!isPrinted) {
+                System.out.println("    Test: " + description);
+                // now the description is printed
+                isPrinted = true;
+            }
+            System.out.println("        " + text);
+            System.out.println("            Expected:  " + expected);
+            System.out.println("            Result: " + result);
+            errors++;
+        }
+    }
+    /** Makes a <tt>PasswordTest</tt> object and runs it.*/
+    public static void main(String[] args) {
+        System.out.println("Log of " + SafeTest.class + 
+                           ", " + new java.util.Date());
+        new SafeTest().runTest();
+    }
+}
+

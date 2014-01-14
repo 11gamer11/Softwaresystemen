@@ -1,0 +1,21 @@
+package ss.week4;
+
+public class Negative {
+
+	private void returnNegative(int[] array){
+		int i;
+		int length = array.length-1;
+		for(i=0; i<length; i++){
+			if(array[i]<0){
+				System.out.println(array[i]);
+			}
+		}
+	}
+	
+	
+	
+	public static void main(int[] testArray, String[] args){
+		new Negative().returnNegative(testArray);
+	}
+
+}

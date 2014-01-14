@@ -1,0 +1,22 @@
+package ss.week4;
+
+public class Reverse {
+
+	public static int[] reverseArray(int[] array){
+		int length = array.length;
+		for(int i=0; i<=(length/2); i++){
+			int x = array[i];
+			int y = array[(length-1)-i];
+			array[i] = y;
+			array[(length-1)-i] = x;
+		}
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

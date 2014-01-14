@@ -1,0 +1,9 @@
+package ss.week6.vote;
+
+import java.awt.Frame;
+import java.awt.Choice;
+import java.awt.Button;
+
+public class VoteFrame extends Frame{
+
+}

@@ -1,0 +1,205 @@
+package ss.week5;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
+
+public class RecPerfectStrategy implements Strategy{
+
+		public String strategyName = "Perfect";
+		private enum MoveType {Losing, Neutral, Winning}
+		private MoveType bestQual = null;
+		private int bestMove = -1;
+		private MoveType qual;
+
+        public static final int WINNING = 1;
+        public static final int NEUTRAL = 0;
+        public static final int LOSING = -1;
+        
+		public String getName() {
+			return this.strategyName;
+		}
+
+        public int determineMove(Board b, Mark m) {
+        	return bestMove(b,m)[0];    
+        }
+        
+        public int[] bestMove(Board b, Mark m){
+                
+                int bestQual = -1;
+                int bestMove = -1;
+                
+                // Create set of empty fields
+                Set<Integer> emptyFields = new HashSet<Integer>();
+                // loop over fields
+                for(int i=0; i<9; i++){
+                        // If field is empty
+                        if(b.isEmptyField(i)){
+                                // Add to set of empty fields
+                                emptyFields.add(i);
+                        }
+                }
+                
+                // Get an iterator over the empty fields
+                Iterator<Integer> iter = emptyFields.iterator();
+                
+                // For all fields
+                while(iter.hasNext()){
+                        // Save the field value to field
+                        int field = iter.next();
+                        
+                        int qual = evaluateMove(b,m,field);
+                        
+                        if(qual > bestQual){
+                                bestQual = qual;
+                                bestMove = field;
+                        }else if(qual == bestQual && Math.floor(Math.random()*2) == 1){
+                                bestQual = qual;
+                                bestMove = field;
+                        }
+                }
+                
+                int[] result = new int[2];
+                result[0] = bestMove;
+                result[1] = bestQual;
+                
+                return result;
+        
+        }
+        
+        private int evaluateMove(Board b, Mark m, int field) {
+                
+                int res;
+                
+                b.setField(field, m);
+                res = evaluate(b, m);
+                b.setField(field, Mark.EMPTY);
+                
+                return res;
+        }
+
+        private int evaluate(Board b, Mark m) {
+                
+                int res = 0;
+                
+                if(!b.isWinner(m)){
+                        if(b.isWinner(m.other())){
+                                res = LOSING;
+                        }else if(b.isFull()){
+                                res = NEUTRAL;
+                        }else{
+                                int[] oppBestMove = bestMove(b,m.other());
+                                int oppQual = oppBestMove[1];
+                                
+                                if(oppQual == WINNING){
+                                        return LOSING;
+                                }else if(oppQual == LOSING){
+                                        return WINNING;
+                                }else{
+                                        return NEUTRAL;
+                                }
+                                
+                        }
+                }else{
+                        res = WINNING;
+                }
+                
+                return res;
+                
+        }
+		private void determineMoveType(Board b, Mark m, int field) {
+			if(b.hasWinner() && b.isWinner(m)){
+				this.qual = MoveType.Winning;
+			}else{
+				b.setField(field, m.other());
+				if(b.hasWinner() && b.isWinner(m.other())){
+					this.qual = MoveType.Losing;
+				}
+				else{
+					this.qual = MoveType.Neutral;
+				}
+			}
+			if(bestQual == null || (bestQual == MoveType.Neutral && qual != MoveType.Neutral) || (bestQual == MoveType.Losing && qual == MoveType.Winning)){
+				this.bestQual = this.qual;
+				this.bestMove = field;
+				//System.out.println(bestMove+" "+bestQual+" "+move+" "+qual);
+			}
+			else if(bestQual == qual){
+				Random random = new Random();
+				boolean rand = random.nextBoolean();
+				//System.out.println(rand);
+			    if(rand){
+			    	this.bestMove = field;
+			    	//System.out.println("Random: "+ bestMove+" "+bestQual+" "+move+" "+qual);
+			    }
+			}
+		}
+		
+		public int determineMove1(Board b, Mark m) {
+			bestQual = null;
+			bestMove = -1;
+			for(int i = 0; i < 9; i++){
+				if(b.isEmptyField(i)){
+					//System.out.println(i);
+					Board tb = b.deepCopy();
+					tb.setField(i, m);
+					determineMoveType(tb, m, i);
+					determineMove(tb,m.other());
+					bestMove = i;
+				}
+				//System.out.println("if 1");
+				//if(bestQual == MoveType.Winning){
+					
+				//}
+				//System.out.println("if 2");
+			}
+			return bestMove;
+			/* qual = null;
+			bestQual = null;
+			bestMove = -1;
+			move = -1;
+			ArrayList<Integer> emptyFields = new ArrayList<Integer>();
+			for(int i = 0; i < 9; i++){
+				if(b.isEmptyField(i)){
+
+			System.out.println(emptyFields+" "+emptyFields.size());
+			int randomIndex = new Random().nextInt(emptyFields.size());
+			int field = emptyFields.get(randomIndex);
+			int field = i;
+			Board tb = b.deepCopy();
+			tb.setField(field, m);
+			System.out.println("m = winner: "+tb.hasWinner() +" "+ tb.isWinner(m));
+			if(tb.hasWinner() && tb.isWinner(m)){
+				this.qual = MoveType.Winning;
+				this.move = field;
+				System.out.println(bestMove+" "+bestQual+" "+move+" "+qual);
+			}else{
+				tb.setField(determineMove(tb, m.other()), m.other());
+				System.out.println("o = winner: "+tb.hasWinner() +" "+ tb.isWinner(m));
+				if(tb.hasWinner() && tb.isWinner(m.other())){
+					this.qual = MoveType.Losing;
+					System.out.println(bestMove+" "+bestQual+" "+move+" "+qual);
+				}
+				else{
+					this.qual = MoveType.Neutral;
+					System.out.println(bestMove+" "+bestQual+" "+move+" "+qual);
+				}
+			}
+			if(bestQual == null || (bestQual == MoveType.Losing && qual != MoveType.Losing) || (bestQual == MoveType.Neutral && qual == MoveType.Winning)){
+				bestQual = qual;
+				bestMove = move;
+				System.out.println(bestMove+" "+bestQual+" "+move+" "+qual);
+			}
+			else if(bestQual == qual){
+				Random random = new Random();
+			    if(random.nextBoolean()){
+			    	bestMove = move;
+			    	System.out.println(bestMove+" "+bestQual+" "+move+" "+qual);
+			    }
+			}}System.out.println("test");}
+			return bestMove;*/
+		}
+
+}

@@ -1,0 +1,16 @@
+package ss.week6;
+
+import java.util.Scanner;
+
+public class Hallo {
+	private static Scanner in;
+
+	public static void main(String[] args) {
+		in = new Scanner (System.in);
+		while (in.hasNextLine()){
+			String line = in.nextLine();
+			System.out.println("Hallo "+line);
+		}
+		System.out.println("Einde");
+	}
+}

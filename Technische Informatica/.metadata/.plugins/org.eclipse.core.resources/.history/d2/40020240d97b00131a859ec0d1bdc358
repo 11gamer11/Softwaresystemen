@@ -1,0 +1,9 @@
+6.4
+1.	public PrintWriter(File file) (throws FileNotFoundException als het bestand niet bestaat)
+	BufferedReader in = new BufferedReader(new FileReader("foo.in"));
+2.	Alle gebufferde tekens worden weggeschreven naar hun bestemming, als deze locatie een andere 'Stream' is wordt deze ook geflushed (kettingreactie)
+3.	Door de functie PrintWriter op de volgende manier te gebruiken: PrintWriter(OutputStream out, boolean autoFlush)
+
+6.7
+1.	Bij het shrijven wordt er automatisch een bestand aangemaakt als dat nog niet bestaat, bij lezen kan dat niet dus kan er een FileNotFountException worden gegeven.
+2.	Door het bestand te lezen

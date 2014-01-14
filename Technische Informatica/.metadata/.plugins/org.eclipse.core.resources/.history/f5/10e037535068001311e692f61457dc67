@@ -1,0 +1,24 @@
+package ss.week4;
+
+public class IntSet {
+
+	private boolean[] isIn;
+	
+	//@requires maxElement>=0;
+	public IntSet (int maxElement){
+		isIn = new boolean[maxElement];
+	}
+	
+	public void addElement(int value){
+		isIn[value] = true;
+	}
+	
+	public void deleteElement(int value){
+		isIn[value] = false;
+	}
+	
+	public boolean checkElement(int value){
+		return isIn[value];
+	}
+
+}

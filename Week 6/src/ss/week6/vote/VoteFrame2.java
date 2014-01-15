@@ -9,7 +9,7 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 
 @SuppressWarnings({"serial", "unchecked", "rawtypes"})
-public class VoteFrame extends JFrame implements ActionListener, ItemListener{
+public class VoteFrame2 extends JFrame{
 
 	private JLabel choice, voted;
 	private JButton accept;
@@ -17,22 +17,25 @@ public class VoteFrame extends JFrame implements ActionListener, ItemListener{
 	private String[] voteOptions= {"Choose a party", "One","Two","Three","Four"};
 	
 	
-	public VoteFrame() {
+	public VoteFrame2() {
 	    super("Vote");
 	    init();
 	}
-	
+
 	private void init() {
 	    Container c = getContentPane();
 	    c.setLayout(new FlowLayout());
+	    
+	    ItemListener pCL = new PartyChoiceListener(voted, accept, voteOption, voteOptions);
+	    ActionListener oBL = new OkButtonListener(voted, accept, voteOption);
 	    
 	    choice = new JLabel("Make your choice");
 	    voteOption = new JComboBox(voteOptions);
 	    voted = new JLabel("");
 	    accept = new JButton("OK");
 	    
-	    accept.addActionListener(this); // object listens to 
-	    voteOption.addItemListener(this); // object listens to 
+	    accept.addActionListener(oBL); // object listens to 
+	    voteOption.addItemListener(pCL); // object listens to 
 	    accept.setEnabled(false);
 	    
 	    c.add(choice);
@@ -44,19 +47,27 @@ public class VoteFrame extends JFrame implements ActionListener, ItemListener{
 	    setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent ev) {
-		
-		if (ev.getSource() == accept) {
-			  voted.setText("");
-			  accept.setEnabled(false);
-			  voteOption.setSelectedIndex(0);
-		}
-	}
-
     public static void main (String [] args) {
     	new VoteFrame();
     }
 
+}
+
+@SuppressWarnings("rawtypes")
+class PartyChoiceListener implements ItemListener{
+
+	private JLabel voted;
+	private JButton accept;
+	private JComboBox voteOption;
+	private String[] voteOptions;
+	
+	PartyChoiceListener(JLabel voted, JButton accept, JComboBox voteOption, String[] voteOptions){
+		this.voted = voted;
+		this.accept = accept;
+		this.voteOption = voteOption;
+		this.voteOptions = voteOptions;
+	}
+	
 	public void itemStateChanged(ItemEvent e) {
 		int option = voteOption.getSelectedIndex();
 		if(option == 0){
@@ -68,4 +79,26 @@ public class VoteFrame extends JFrame implements ActionListener, ItemListener{
 		}
 	}
 	
+}
+
+@SuppressWarnings("rawtypes")
+class OkButtonListener implements ActionListener{
+
+	private JLabel voted;
+	private JButton accept;
+	private JComboBox voteOption;
+	
+	OkButtonListener(JLabel voted, JButton accept, JComboBox voteOption){
+		this.voted = voted;
+		this.accept = accept;
+		this.voteOption = voteOption;
+	}
+	
+	public void actionPerformed(ActionEvent ev) {
+		if (ev.getSource() == accept) {
+			  voted.setText("");
+			  accept.setEnabled(false);
+			  voteOption.setSelectedIndex(0);
+		}
+	}
 }

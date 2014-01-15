@@ -1,5 +1,7 @@
 package ss.week6.ttt;
 
+import java.util.Observable;
+
 
 /**
  * Class for maintaining the Tic Tac Toe game. Lab assignment Module 2
@@ -7,7 +9,7 @@ package ss.week6.ttt;
  * @author Theo Ruys en Arend Rensink
  * @version $Revision: 1.4 $
  */
-public class Game
+public class Game extends Observable
 {
 
     // -- Instance variables -----------------------------------------
@@ -72,6 +74,8 @@ public class Game
     public void takeTurn(int i) {
         board.setField(i, current);
         current = current.other();
+        setChanged();
+        notifyObservers();
     }
 
 

@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+@SuppressWarnings({"resource", "unused"})
 public class Card
 {
 
@@ -65,7 +66,6 @@ public class Card
 
 
 	public static Card read(DataInputStream dataIn) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

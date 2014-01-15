@@ -1,5 +1,6 @@
 package ss.week6;
 
+@SuppressWarnings("serial")
 public class ToofewArgumentsException extends WrongArgumentException{
 	
 	public ToofewArgumentsException(){

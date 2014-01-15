@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class ListenerDemo extends JFrame implements ActionListener{ 
 	private JButton b1, b2;
 	private JLabel lb;

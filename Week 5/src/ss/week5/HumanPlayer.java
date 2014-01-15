@@ -12,6 +12,7 @@ import ss.week5.Player;
  * @author Theo Ruys
  * @version $Revision: 1.4 $
  */
+@SuppressWarnings("resource")
 public class HumanPlayer extends Player {
 
     // -- Constructors -----------------------------------------------

@@ -8,6 +8,7 @@ import java.util.Scanner;
  * @author Theo Ruys en Arend Rensink
  * @version $Revision: 1.4 $
  */
+@SuppressWarnings("resource")
 public class Game {
 
     // -- Instance variables -----------------------------------------

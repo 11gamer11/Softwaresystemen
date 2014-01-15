@@ -7,10 +7,11 @@ import java.util.Scanner;
  * @author Arend Rensink en Theo Ruys
  * @version 2005.02.15
  */
+@SuppressWarnings("resource")
 public class Vote {
     public static void main(String[] args) {
         Result uitslag = new Result();
-        VoteFrame stemFrame = new VoteFrame(uitslag);
+        VoteFrame stemFrame = new VoteFrame(/*uitslag*/);
         ResultJFrame uitslagJFrame = new ResultJFrame(uitslag);
         uitslag.addParty("PvdA");
         uitslag.addParty("VVD");

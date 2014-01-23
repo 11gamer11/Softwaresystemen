@@ -46,7 +46,7 @@ public class HumanPlayer extends Player {
      * @return the player's chosen field
      */
     public int determineMove(Board board) {
-    	System.out.println(board.checkBeatingFields(getMark()));
+    	System.out.println(board.allAllowedFields(getMark()));
         String prompt = "> " + getName() + " (" + getMark().toString() + ")"
                 + ", what is your choice? ";
         int choice = readInt(prompt);

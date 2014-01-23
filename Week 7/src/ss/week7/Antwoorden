@@ -1,0 +1,25 @@
+7.13
+
+1.	What does it mean for a lock to be reentrant?
+2.	Is this behaviour different from the synchronized statement?
+3.	What would be advantages of using a ReentrantLock?
+4.	And what would be disadvantages?
+
+1.	A ReentrantLock is owned by the thread last successfully locking,
+	but not yet unlocking it. A thread invoking lock will return,
+	successfully acquiring the lock, when the lock is not owned by another thread.
+	The method will return immediately if the current thread already owns the lock.
+
+2.	When one thread is executing a synchronized method for an object,
+	all other threads that invoke synchronized methods for the same object block (suspend execution)
+	until the first thread is done with the object.
+
+3.	It provides facility attempt to acquire a lock without being willing to wait for it forever.
+	Thus, it provides non-blocking locking structure using tryLock() API.
+	It's easy to implement time-budgeted activities.
+	Its class defines methods like isLocked() and getLockQueueLength() and some associated protected access methods that may be useful for instrumentation and monitoring.
+	It implements optional "fairness policy" which favors the granting the access to the longest-waiting thread & avoids starvation.
+
+4.	If you forget to call unlock() in a finally block, you'll hurt innocent threads waiting for that lock.
+	If you forget to call unlock() it's possible that it cannot be unlocked anymore.
+	It's difficult to detect & identify deadlock because of thread dumps complexity.

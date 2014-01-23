@@ -1,8 +1,10 @@
-package ss.week5;
+package game;
 
-import ss.week5.Board;
-import ss.week5.Mark;
-import ss.week5.Player;
+import strategy.NaiveStrategy;
+import strategy.Strategy;
+import board.Board;
+import board.Mark;
+import game.Player;
 
 public class ComputerPlayer extends Player{
 	

@@ -1,5 +1,7 @@
 package ss.week5;
 
+import ss.week5.Strategy;
+
 import java.util.ArrayList;
 import java.util.Random;
 

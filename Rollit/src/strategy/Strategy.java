@@ -1,7 +1,7 @@
-package ss.week5;
+package strategy;
 
-import ss.week5.Board;
-import ss.week5.Mark;
+import board.Board;
+import board.Mark;
 
 public interface Strategy {
 	

@@ -5,11 +5,12 @@ import java.util.Scanner;
 import board.Board;
 import game.Player;
 
+@SuppressWarnings("resource")
 public class Game {
 
     // -- Instance variables -----------------------------------------
 
-    public static final int NUMBER_PLAYERS = 2;
+    public static final int NUMBER_PLAYERS = 4;
 
     /*@
        private invariant board != null;
@@ -49,12 +50,16 @@ public class Game {
      *            the first player
      * @param s1
      *            the second player
+     * @param s4 
+     * @param s3 
      */
-    public Game(Player s0, Player s1) {
+    public Game(Player s0, Player s1, Player s2, Player s3) {
         board = new Board();
         players = new Player[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;
+        players[2] = s2;
+        players[3] = s3;
         current = 0;
     }
 

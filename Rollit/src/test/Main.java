@@ -2,16 +2,25 @@ package test;
 
 //import game.HumanPlayer;
 
+import strategy.NaiveStrategy;
+import strategy.SmartStrategy;
+import game.ComputerPlayer;
 import game.HumanPlayer;
 import game.Game;
 import game.Player;
-import board.Board;
 import board.Mark;
-//import board.Mark;
-//import game.Game;
-//import game.Player;
 
 public class Main {
+    private static Player createPlayer(String s, Mark m) {
+        if (s.equals("-N")) {
+            return new ComputerPlayer(m, new NaiveStrategy());
+        } else if (s.equals("-S")) {
+            return new ComputerPlayer(m, new SmartStrategy());
+        } else {
+            return new HumanPlayer(s, m);
+        }
+    }
+	
     public static void main(String[] args) {
         /*if (args.length == 2) {
             Player s1 = new HumanPlayer(args[0], Mark.values()[0]);
@@ -35,14 +44,18 @@ public class Main {
             System.out.println("usage: TicTacToe <name1> <nam2>");
         }*/
         System.out.println("Rolit");
-        System.out.println("--------------------------");
+        System.out.print("--------------------------");
         /*Board board = new Board();
         for(int i = 0; i < 36; i++){
         	System.out.println("Veld "+i+" = ("+board.rowcol(i)[0]+","+board.rowcol(i)[1]+ ")");
         }*/
-        Player s1 = new HumanPlayer("P1", Mark._RED__);
-        Player s2 = new HumanPlayer("P2", Mark._BLUE_);
-        Game spel = new Game(s1, s2);
+       
+        Player s1 = createPlayer(args[0], Mark._RED__);
+        Player s2 = createPlayer(args[1], Mark.GREEN_);
+        Player s3 = createPlayer(args[2], Mark.YELLOW);
+        Player s4 = createPlayer(args[3], Mark._BLUE_);
+        System.out.println(args[0]+args[1]+args[2]+args[3]);
+        Game spel = new Game(s1, s2, s3, s4);
         spel.start();
     	/*Board board = new Board();
     	System.out.println("\ncurrent game situation: \n\n"+board.toString()+"\n");    	

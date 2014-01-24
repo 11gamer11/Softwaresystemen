@@ -15,8 +15,10 @@ public class Server implements Runnable {
 	// -- Instance variables -----------------------------------------
 	
 	private ServerSocket serverSocket;
+	private static Server server;
 	private InputHandler inputHandler;
 	private Thread thread;
+	private ClientHandler client;
 	
 	public ServerInformation serverInfo = new ServerInformation();
 	
@@ -30,9 +32,17 @@ public class Server implements Runnable {
         this.serverInfo.localIp = getLocalIp();
         this.serverInfo.port = port;
         
-        Logging.log(0, "Server making own thread");
-        this.thread = new Thread(this);
-        this.thread.start();
+        try {
+        	serverSocket = new ServerSocket(this.serverInfo.port);
+            Logging.log(0, "ServerSocket created on port " + this.serverInfo.port);
+        } catch (IOException e) {
+        	Logging.log(3, "Could not create server");
+        }
+        if (thread == null) {
+	        Logging.log(0, "Server making own thread");
+	        this.thread = new Thread(this);
+	        this.thread.start();
+        }
     }
 	
     // -- Commands ---------------------------------------------------
@@ -61,23 +71,45 @@ public class Server implements Runnable {
         try {
         	clientHandler.protocol.executeCommand(msg);
         } catch (IllegalArgumentException e) {
-        	Logging.log(3, "Illegal arguments in command " + msg + " [" + e.getMessage() + "]");
+        	Logging.log(3, "Illegal arguments in command " + msg + ", [" + e.getMessage() + "]");
         } catch (IOException e) {
-        	Logging.log(3, "Error while processing command " + msg + " [" + e.getMessage() + "]");
+        	Logging.log(3, "Error while processing command " + msg + ", [" + e.getMessage() + "]");
         }
     }
     
     public void handleInput(String msg) {
         Logging.log(0, "Input received: " + msg);
-        for (ClientHandler client : this.connectedClients) {
-			Logging.log(0, "Sending message to client " + client.clientInfo.name);
-			client.send(msg);
+        for (ClientHandler clientHandler : this.connectedClients) {
+			Logging.log(0, "Sending message to clientHandler " + clientHandler.clientInfo.name);
+			clientHandler.send(msg);
         }
 	}
 	
-	public void removeClient(ClientHandler client) {
-		this.connectedClients.remove(client);
+    public void addThread(Socket socket) {
+        Logging.log(1, "Client accepted: " + socket.getInetAddress() + ":" + socket.getPort());
+        client = new ClientHandler(this, socket);
+        try {
+            client.open();
+            client.start();
+        } catch (IOException e) {
+            Logging.log(3, "Error connecting with client: " + e.getMessage());
+        }
+    }
+    
+	public void removeClient(ClientHandler clientHandler) {
+		this.connectedClients.remove(clientHandler);
 	}
+	
+    public void stop() {
+        if (thread != null) {
+            try {
+                thread.join();
+                thread = null;
+            } catch (InterruptedException e) {
+                Logging.log(0, "Thread interrupted.");
+            }
+        }
+    }
 	
 	public void run() {
         Logging.log(1, "Starting the server on port: " + this.serverInfo.port);
@@ -91,12 +123,11 @@ public class Server implements Runnable {
             inputHandler = new InputHandler(this);
             
             while (!done) {
-                Socket client = serverSocket.accept();
+                Socket clientSocket = serverSocket.accept();
                 Logging.log(1, "A new client connected");
-                ClientHandler clientHandler = new ClientHandler(this, client);
+                ClientHandler clientHandler = new ClientHandler(this, clientSocket);
                 Logging.log(1, "The client connected from " 
-                						+ clientHandler.clientInfo.ipAdres.getHostAddress()
-                						+ ":" + clientHandler.clientInfo.port);
+                					+ clientHandler.clientInfo.ipAdres.toString().substring(1));
                 connectedClients.add(clientHandler);
             }
                 
@@ -110,7 +141,7 @@ public class Server implements Runnable {
             Logging.log(3, "USAGE: java rolit.server.Server <port>");
         } else {
             int sPort = Integer.parseInt(args[0]);
-            Server server = new Server(sPort);
+            server = new Server(sPort);
         }
 	}
 }

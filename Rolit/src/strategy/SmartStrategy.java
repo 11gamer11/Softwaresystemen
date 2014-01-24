@@ -19,7 +19,7 @@ public class SmartStrategy implements Strategy {
 		List<Integer> allowedFields = b.allAllowedFields(m);
 	    int randomIndex = new Random().nextInt(allowedFields.size());
 		int randomField = allowedFields.get(randomIndex);
-		int dim = b.DIM;
+		int dim = b.getDim();
 		if (allowedFields.contains(0)) {
 			randomField = 0;
 		} else if (allowedFields.contains(dim - 1)) {

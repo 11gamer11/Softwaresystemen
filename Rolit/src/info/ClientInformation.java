@@ -1,13 +1,13 @@
 package info;
 
-import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import server.Server;
 
 public class ClientInformation {
 	//connection info
-	public InetAddress ipAdres = null;
+	public SocketAddress ipAdres = null;
 	public int port = -1;
 	
 	//personal info

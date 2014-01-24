@@ -22,7 +22,7 @@ public class Controller implements ActionListener {
 		this.view = newView;
 		this.buttons = buttonList;
 		this.again = againButton;
-		this.dim = game.getBoard().DIM;
+		this.dim = game.getBoard().getDim();
 		
 		for (int i = 0; i < dim * dim; i++) {
 			buttons[i].addActionListener(this);

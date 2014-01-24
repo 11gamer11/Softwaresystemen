@@ -36,7 +36,7 @@ public class View extends Frame implements Observer {
 	
 	public View(Game newGame) {
 		this.game = newGame;
-		this.dim = game.getBoard().DIM;
+		this.dim = Board.getDim();
 		this.frame = new JFrame();
 		this.layout = new GridLayout(dim + 1, dim);
 		this.buttons = new JButton[dim * dim];

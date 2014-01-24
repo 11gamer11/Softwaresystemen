@@ -16,7 +16,7 @@ public class Board {
 
     // -- Constants --------------------------------------------------
 
-    public static final int DIM = 4;
+    private static final int DIM = 8;
     private static final String DELIM = "   |   ";
     private static final int LEFT_DIRECTION = -1;
     private static final int RIGHT_DIRECTION = 1;
@@ -34,7 +34,7 @@ public class Board {
      * Creates an empty board.
      */
     public Board() {
-        fields = new Mark[DIM * DIM];
+        fields = new Mark[getDim() * getDim()];
         reset();
     }
 
@@ -56,7 +56,7 @@ public class Board {
      * @return <code>true</code> if <code>0 <= ix < DIM*DIM</code>
      */
     public boolean isField(int ix) {
-    	return (0 <= ix) && (ix < DIM * DIM);
+    	return (0 <= ix) && (ix < getDim() * getDim());
     }
 
     /**
@@ -69,6 +69,11 @@ public class Board {
     	return fields[index];
     }
     
+
+	public static int getDim() {
+		return DIM;
+	}
+    
     /**
      * Converts field from i to coordinates.
      * 
@@ -79,8 +84,8 @@ public class Board {
     	int[] rowcol = new int[2];
     	int row, col;
     	
-    	row = (int) Math.floor(index / DIM);
-    	col = (int) index % DIM;
+    	row = (int) Math.floor(index / getDim());
+    	col = (int) index % getDim();
     	
     	rowcol[0] = row;
     	rowcol[1] = col;
@@ -105,9 +110,9 @@ public class Board {
      */
     public boolean isCorrectField(int field) {
     	if (isEmptyField(field)) {
-    		for (int row = 0; row < DIM * DIM; row += DIM) {
+    		for (int row = 0; row < getDim() * getDim(); row += getDim()) {
 				int firstField = row;
-				int lastField = row + (DIM - 1);
+				int lastField = row + (getDim() - 1);
     			if ((field == firstField) && isCorrectFirstFieldRow(field)) {
         			return true;
     			}
@@ -128,7 +133,7 @@ public class Board {
 	private boolean isCorrectFirstFieldRow(int field) {
     	int checkField;
 		for (int topDirection = 0; topDirection < 2; topDirection++) {
-			checkField = field - DIM + topDirection;
+			checkField = field - getDim() + topDirection;
 			if (isField(checkField) && !isEmptyField(checkField)) {
 				return true;
 			}
@@ -137,7 +142,7 @@ public class Board {
 			return true;
 		}
 		for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
-			checkField = field + DIM + bottomDirection;
+			checkField = field + getDim() + bottomDirection;
 			if (isField(checkField) && !isEmptyField(checkField)) {
 				return true;
 			}
@@ -152,7 +157,7 @@ public class Board {
     private boolean isCorrectMiddleFieldsRow(int field) {
     	int checkField;
 		for (int topDirection = 0; topDirection < 3; topDirection++) {
-			checkField = field - (DIM + 1) + topDirection;
+			checkField = field - (getDim() + 1) + topDirection;
 			if (isField(checkField) && !isEmptyField(checkField)) {
 				return true;
 			}
@@ -164,7 +169,7 @@ public class Board {
 			return true;
 		}
 		for (int bottomDirection = 0; bottomDirection < 3; bottomDirection++) {
-			checkField = field + (DIM - 1) + bottomDirection;
+			checkField = field + (getDim() - 1) + bottomDirection;
 			if (isField(checkField) && !isEmptyField(checkField)) {
 				return true;
 			}
@@ -178,7 +183,7 @@ public class Board {
     private boolean isCorrectLastFieldRow(int field) {
     	int checkField;
 		for (int topDirection = 0; topDirection < 2; topDirection++) {
-			checkField = field - (DIM + 1) + topDirection;
+			checkField = field - (getDim() + 1) + topDirection;
 			if (isField(checkField) && !isEmptyField(checkField)) {
 				return true;
 			}
@@ -187,7 +192,7 @@ public class Board {
 			return true;
 		}
 		for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
-			checkField = field + (DIM - 1) + bottomDirection;
+			checkField = field + (getDim() - 1) + bottomDirection;
 			if (isField(checkField) && !isEmptyField(checkField)) {
 				return true;
 			}
@@ -224,9 +229,9 @@ public class Board {
     public List<Integer> checkBeat(int field, Mark mark) {
     	List<Integer> beatenFields = new ArrayList<Integer>();
     	
-    	for (int row = 0; row < DIM; row++) {
-    		int firstField = row * DIM;
-    		int lastField = row * DIM + (DIM - 1);
+    	for (int row = 0; row < getDim(); row++) {
+    		int firstField = row * getDim();
+    		int lastField = row * getDim() + (getDim() - 1);
 	    	if (field == firstField) {
 	    		beatenFields.addAll(checkBeatFirstFieldRow(field, mark));
 	    	}
@@ -248,8 +253,8 @@ public class Board {
     	List<Integer> beatenFields = new ArrayList<Integer>();
     	List<Integer> tmpFields = new ArrayList<Integer>();
     	for (int topDirection = 0; topDirection < 2; topDirection++) {
-    		int direction = DIM - topDirection;
-	    	for (int level = 1; level < DIM &&
+    		int direction = getDim() - topDirection;
+	    	for (int level = 1; level < getDim() &&
 	    							checkField(-direction, field, level, false, true); level++) {
 	    		int beatField = field - (direction * level);
 	    		tmpFields.add(beatField);
@@ -258,8 +263,8 @@ public class Board {
 		   	tmpFields = new ArrayList<Integer>();
     	}
 	    for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
-	    	int direction = DIM + bottomDirection;
-	    	for (int level = 1; level < DIM &&
+	    	int direction = getDim() + bottomDirection;
+	    	for (int level = 1; level < getDim() &&
 	    							checkField(direction, field, level, false, true); level++) {
 	    		int beatField = field + (direction * level);
 	    		tmpFields.add(beatField);
@@ -267,7 +272,7 @@ public class Board {
 	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
 	    	tmpFields = new ArrayList<Integer>();
 	    }
-    	for (int level = 1; level < DIM &&
+    	for (int level = 1; level < getDim() &&
     							checkField(RIGHT_DIRECTION, field, level, false, true); level++) {
     		int beatField = field + level;
 	    	tmpFields.add(beatField);
@@ -285,8 +290,8 @@ public class Board {
     	List<Integer> beatenFields = new ArrayList<Integer>();
     	List<Integer> tmpFields = new ArrayList<Integer>();
     	for (int topDirection = 0; topDirection < 3; topDirection++) {
-    		int direction = (DIM - 1) + topDirection;
-	    	for (int level = 1; level < DIM &&
+    		int direction = (getDim() - 1) + topDirection;
+	    	for (int level = 1; level < getDim() &&
 	    							checkField(-direction, field, level, true, true); level++) {
 	    		int beatField = field - (direction * level);
 	    		tmpFields.add(beatField);
@@ -295,8 +300,8 @@ public class Board {
 		   	tmpFields = new ArrayList<Integer>();
     	}
 	    for (int bottomDirection = 0; bottomDirection < 3; bottomDirection++) {
-	    	int direction = (DIM + 1) - bottomDirection;
-	    	for (int level = 1; level < DIM &&
+	    	int direction = (getDim() + 1) - bottomDirection;
+	    	for (int level = 1; level < getDim() &&
 	    							checkField(direction, field, level, true, true); level++) {
 	    		int beatField = field + (direction * level);
 	    		tmpFields.add(beatField);
@@ -304,14 +309,14 @@ public class Board {
 	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
 	    	tmpFields = new ArrayList<Integer>();
 	    }
-    	for (int level = 1; level < DIM &&
+    	for (int level = 1; level < getDim() &&
     							checkField(LEFT_DIRECTION, field, level, true, false); level++) {
     		int beatField = field - level;
     		tmpFields.add(beatField);
     	}
     	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
     	tmpFields = new ArrayList<Integer>();
-    	for (int level = 1; level < DIM &&
+    	for (int level = 1; level < getDim() &&
     						checkField(RIGHT_DIRECTION, field, level, false, true); level++) {
     		int beatField = field + level;
 	    	tmpFields.add(beatField);
@@ -329,8 +334,8 @@ public class Board {
     	List<Integer> beatenFields = new ArrayList<Integer>();
     	List<Integer> tmpFields = new ArrayList<Integer>();
     	for (int topDirection = 0; topDirection < 2; topDirection++) {
-    		int direction = DIM + topDirection;
-	    	for (int level = 1; level < DIM &&
+    		int direction = getDim() + topDirection;
+	    	for (int level = 1; level < getDim() &&
 	    							checkField(-direction, field, level, true, false); level++) {
 	    		int beatField = field - (direction * level);
 	    		tmpFields.add(beatField);
@@ -339,7 +344,7 @@ public class Board {
 		   	tmpFields = new ArrayList<Integer>();
     	}
 	    for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
-	    	int direction = DIM - bottomDirection;
+	    	int direction = getDim() - bottomDirection;
 	    	for (int level = 1; level < 8 &&
 	    							checkField(direction, field, level, true, false); level++) {
 	    		int beatField = field + (direction * level);
@@ -348,7 +353,7 @@ public class Board {
 	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
 	    	tmpFields = new ArrayList<Integer>();
 	    }
-    	for (int level = 1; level < DIM &&
+    	for (int level = 1; level < getDim() &&
     						checkField(LEFT_DIRECTION, field, level, true, false); level++) {
     		int beatField = field - level;
     		tmpFields.add(beatField);
@@ -406,15 +411,15 @@ public class Board {
      */
     private boolean checkCol(int field, boolean left, boolean right) {
     	if (left) {
-	    	for (int i = 0; i < DIM; i++) {
-	    		if ((DIM * i) == field) {
+	    	for (int i = 0; i < getDim(); i++) {
+	    		if ((getDim() * i) == field) {
 	    			return true;
 	    		}
 	    	}
     	}
     	if (right) {
-	    	for (int i = 0; i < DIM; i++) {
-	    		if ((DIM * i + (DIM - 1)) == field) {
+	    	for (int i = 0; i < getDim(); i++) {
+	    		if ((getDim() * i + (getDim() - 1)) == field) {
 	    			return true;
 	    		}
 	    	}
@@ -552,7 +557,7 @@ public class Board {
      * @return the game situation as String
      */
     public String toString() {
-    	int integer = String.valueOf((DIM * DIM) - 1).length();
+    	int integer = String.valueOf((getDim() * getDim()) - 1).length();
     	String rowLine = "";
     	String decimalFormat = "";
     	String board = "";
@@ -561,35 +566,35 @@ public class Board {
     		decimalFormat += "0";
     	}
     	
-    	for (int row = 0; row < DIM; row++) {
+    	for (int row = 0; row < getDim(); row++) {
             String rowTextFirst = "";
-            for (int col = 0; col < DIM; col++) {
-            	rowTextFirst = rowTextFirst + " " + fields[DIM * row + col].toString() + " ";
-                if (col < DIM - 1) {
+            for (int col = 0; col < getDim(); col++) {
+            	rowTextFirst = rowTextFirst + " " + fields[getDim() * row + col].toString() + " ";
+                if (col < getDim() - 1) {
                 	rowTextFirst = rowTextFirst + "|";
                 }
             }
             String rowTextSecond = "";
-            for (int col = 0; col < DIM; col++) {
+            for (int col = 0; col < getDim(); col++) {
             	DecimalFormat form = new DecimalFormat(decimalFormat);
-            	rowTextSecond = rowTextSecond + " " + form.format(DIM * row + col) + " ";
-                if (col < DIM - 1) {
+            	rowTextSecond = rowTextSecond + " " + form.format(getDim() * row + col) + " ";
+                if (col < getDim() - 1) {
                 	rowTextSecond = rowTextSecond + "|";
                 }
             }
             board = board + rowTextFirst + DELIM + rowTextSecond;
-            if (row < DIM - 1) {
+            if (row < getDim() - 1) {
                 String rowLineFirst = "";
-                for (int col = 0; col < DIM; col++) {
+                for (int col = 0; col < getDim(); col++) {
                 	rowLineFirst = rowLineFirst + "--------";
-                    if (col < DIM - 1) {
+                    if (col < getDim() - 1) {
                     	rowLineFirst = rowLineFirst + "+";
                     }
                 }
                 String rowLineSecond = "";
-                for (int col = 0; col < DIM; col++) {
+                for (int col = 0; col < getDim(); col++) {
                 	rowLineSecond = rowLineSecond + rowLine + "--";
-                    if (col < DIM - 1) {
+                    if (col < getDim() - 1) {
                     	rowLineSecond = rowLineSecond + "+";
                     }
                 }
@@ -640,13 +645,14 @@ public class Board {
      * setMiddleFields sets the four fields in the middle to the corresponding colors.
      */
     public void setMiddleFields() {
-    	int midCol1 = DIM / 2 - 1;
-    	int midCol2 = DIM / 2;
-    	int midRow1 = ((DIM / 2) * DIM) - DIM;
-    	int midRow2 = (DIM / 2) * DIM;
+    	int midCol1 = getDim() / 2 - 1;
+    	int midCol2 = getDim() / 2;
+    	int midRow1 = ((getDim() / 2) * getDim()) - getDim();
+    	int midRow2 = (getDim() / 2) * getDim();
         setField(midRow1 + midCol1, Mark._RED__);
         setField(midRow1 + midCol2, Mark.YELLOW);
         setField(midRow2 + midCol1, Mark.GREEN_);
         setField(midRow2 + midCol2, Mark._BLUE_);
     }
+
 }

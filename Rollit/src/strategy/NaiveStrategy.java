@@ -1,14 +1,12 @@
 package strategy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import strategy.Strategy;
 import board.Board;
 import board.Mark;
 
-public class NaiveStrategy implements Strategy{
+public class NaiveStrategy implements Strategy {
 
 	public String strategyName = "Naive";
 		

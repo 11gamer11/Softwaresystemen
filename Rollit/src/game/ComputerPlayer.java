@@ -4,22 +4,21 @@ import strategy.NaiveStrategy;
 import strategy.Strategy;
 import board.Board;
 import board.Mark;
-import game.Player;
 
-public class ComputerPlayer extends Player{
+public class ComputerPlayer extends Player {
 	
 	Mark mark;
 	Strategy strategy;
 	
-	public ComputerPlayer(Mark mark, Strategy strategy) {
-		super(strategy.getName()+"-"+mark.name(), mark);
-		this.mark = mark;
-		this.strategy = strategy;
+	public ComputerPlayer(Mark markPlayer, Strategy strategyPlayer) {
+		super(strategyPlayer.getName(), markPlayer);
+		this.mark = markPlayer;
+		this.strategy = strategyPlayer;
 	}
 	
-	public ComputerPlayer(Mark mark) {
-		super("Naive-"+mark.name(), mark);
-		this.mark = mark;
+	public ComputerPlayer(Mark markPlayer) {
+		super("Naive-" + markPlayer.name(), markPlayer);
+		this.mark = markPlayer;
 		this.strategy = new NaiveStrategy();
 	}
 

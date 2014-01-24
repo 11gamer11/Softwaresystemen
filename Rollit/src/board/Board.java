@@ -16,7 +16,7 @@ public class Board {
 
     // -- Constants --------------------------------------------------
 
-    public static final int DIM = 8;
+    public static final int DIM = 4;
     private static final String DELIM = "   |   ";
     private static final int LEFT_DIRECTION = -1;
     private static final int RIGHT_DIRECTION = 1;
@@ -55,8 +55,8 @@ public class Board {
      * Returns true if <code>ix</code> is a valid index of a field on tbe board.
      * @return <code>true</code> if <code>0 <= ix < DIM*DIM</code>
      */
-   public boolean isField(int ix) {
-        return (0 <= ix) && (ix < DIM * DIM);
+    public boolean isField(int ix) {
+    	return (0 <= ix) && (ix < DIM * DIM);
     }
 
     /**
@@ -75,12 +75,12 @@ public class Board {
      * @param index the number of the field.
      * @return IntArray with the first value = row & second value = column
      */
-    public int[] rowcol (int index){
+    public int[] rowcol(int index) {
     	int[] rowcol = new int[2];
     	int row, col;
     	
-    	row = (int) Math.floor(index/DIM);
-    	col = (int) index%DIM;
+    	row = (int) Math.floor(index / DIM);
+    	col = (int) index % DIM;
     	
     	rowcol[0] = row;
     	rowcol[1] = col;
@@ -104,17 +104,17 @@ public class Board {
      * @return true if the field has any non-empty fields next to it.
      */
     public boolean isCorrectField(int field) {
-    	if(isEmptyField(field)){
-    		for(int row = 0; row < DIM*DIM; row += DIM){
-	    			int firstField = row;
-	    			int lastField = row+(DIM-1);
-    			if((field == firstField) && isCorrectFirstFieldRow(field)){
+    	if (isEmptyField(field)) {
+    		for (int row = 0; row < DIM * DIM; row += DIM) {
+				int firstField = row;
+				int lastField = row + (DIM - 1);
+    			if ((field == firstField) && isCorrectFirstFieldRow(field)) {
         			return true;
     			}
-        		if((field > firstField && field < lastField) && isCorrectMiddleFieldsRow(field)){
+        		if ((field > firstField && field < lastField) && isCorrectMiddleFieldsRow(field)) {
         			return true;
 	    		}
-	    		if((field == lastField) && isCorrectLastFieldRow(field)){
+	    		if ((field == lastField) && isCorrectLastFieldRow(field)) {
         			return true;
     			}
     		}
@@ -122,91 +122,92 @@ public class Board {
     	return false;
     }
     
-	    /**
-	     * Returns true if the first field of a row has any non-empty fields next to it.
-	     */
-    	private boolean isCorrectFirstFieldRow(int field) {
-	    	int checkField;
-			for(int topDirection = 0; topDirection < 2; topDirection++){
-				checkField = field-DIM+topDirection;
-				if(isField(checkField) && !isEmptyField(checkField)){
-					return true;
-				}
+    /**
+     * Returns true if the first field of a row has any non-empty fields next to it.
+     */
+	private boolean isCorrectFirstFieldRow(int field) {
+    	int checkField;
+		for (int topDirection = 0; topDirection < 2; topDirection++) {
+			checkField = field - DIM + topDirection;
+			if (isField(checkField) && !isEmptyField(checkField)) {
+				return true;
 			}
-				if(!isEmptyField(field+RIGHT_DIRECTION)){
-					return true;
-				}
-			for(int bottomDirection = 0; bottomDirection < 2; bottomDirection++){
-				checkField = field+DIM+bottomDirection;
-				if(isField(checkField) && !isEmptyField(checkField)){
-					return true;
-				}
+		}
+		if (!isEmptyField(field + RIGHT_DIRECTION)) {
+			return true;
+		}
+		for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
+			checkField = field + DIM + bottomDirection;
+			if (isField(checkField) && !isEmptyField(checkField)) {
+				return true;
 			}
-			return false;
-	    }
+		}
+		return false;
+    }
     	
-	    /**
-	     * Returns true if a field between the first and the last field of a row has any non-empty fields next to it.
-	     */
-	    private boolean isCorrectMiddleFieldsRow(int field) {
-	    	int checkField;
-			for(int topDirection = 0; topDirection < 3; topDirection++){
-				checkField = field-(DIM+1)+topDirection;
-				if(isField(checkField) && !isEmptyField(checkField)){
-					return true;
-				}
+    /**
+     * Returns true if a field between the first and
+     * the last field of a row has any non-empty fields next to it.
+     */
+    private boolean isCorrectMiddleFieldsRow(int field) {
+    	int checkField;
+		for (int topDirection = 0; topDirection < 3; topDirection++) {
+			checkField = field - (DIM + 1) + topDirection;
+			if (isField(checkField) && !isEmptyField(checkField)) {
+				return true;
 			}
-				if(!isEmptyField(field+LEFT_DIRECTION)){
-					return true;
-				}
-				if(!isEmptyField(field+RIGHT_DIRECTION)){
-					return true;
-				}
-			for(int bottomDirection = 0; bottomDirection < 3; bottomDirection++){
-				checkField = field+(DIM-1)+bottomDirection;
-				if(isField(checkField) && !isEmptyField(checkField)){
-					return true;
-				}
+		}
+		if (!isEmptyField(field + LEFT_DIRECTION)) {
+			return true;
+		}
+		if (!isEmptyField(field + RIGHT_DIRECTION)) {
+			return true;
+		}
+		for (int bottomDirection = 0; bottomDirection < 3; bottomDirection++) {
+			checkField = field + (DIM - 1) + bottomDirection;
+			if (isField(checkField) && !isEmptyField(checkField)) {
+				return true;
 			}
-			return false;
-	    }
-	    
-	    /**
-	     * Returns true if the last field of a row has any non-empty fields next to it.
-	     */
-	    private boolean isCorrectLastFieldRow(int field) {
-	    	int checkField;
-			for(int topDirection = 0; topDirection < 2; topDirection++){
-				checkField = field-(DIM+1)+topDirection;
-				if(isField(checkField) && !isEmptyField(checkField)){
-					return true;
-				}
+		}
+		return false;
+    }
+    
+    /**
+     * Returns true if the last field of a row has any non-empty fields next to it.
+     */
+    private boolean isCorrectLastFieldRow(int field) {
+    	int checkField;
+		for (int topDirection = 0; topDirection < 2; topDirection++) {
+			checkField = field - (DIM + 1) + topDirection;
+			if (isField(checkField) && !isEmptyField(checkField)) {
+				return true;
 			}
-				if(!isEmptyField(field+LEFT_DIRECTION)){
-					return true;
-	    		}
-			for(int bottomDirection = 0; bottomDirection < 2; bottomDirection++){
-				checkField = field+(DIM-1)+bottomDirection;
-				if(isField(checkField) && !isEmptyField(checkField)){
-					return true;
-				}
+		}
+		if (!isEmptyField(field  + LEFT_DIRECTION)) {
+			return true;
+		}
+		for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
+			checkField = field + (DIM - 1) + bottomDirection;
+			if (isField(checkField) && !isEmptyField(checkField)) {
+				return true;
 			}
-			return false;
-	    }
+		}
+		return false;
+    }
 	    
     /**
      * Returns a list with all the correct fields.
      * 
      * @return a list with the index of all the correct fields.
      */
-    public List<Integer> getAllCorrectFields(){
+    public List<Integer> getAllCorrectFields() {
     	List<Integer> allCorrectFields = new ArrayList<Integer>();
     	
     	List<Integer> markFields = getAllFields(Mark.EMPTY_);
     	Iterator<Integer> iterator = markFields.iterator();
-		while (iterator.hasNext()){
+		while (iterator.hasNext()) {
 			int field = iterator.next();
-			if(isCorrectField(field)){
+			if (isCorrectField(field)) {
 				allCorrectFields.add(field);
 			}
 		}
@@ -220,205 +221,220 @@ public class Board {
      * @param mark the mark that will be in the field
      * @return a list with fields
      */
-    public List<Integer> checkBeat(int field, Mark mark){
+    public List<Integer> checkBeat(int field, Mark mark) {
     	List<Integer> beatenFields = new ArrayList<Integer>();
     	
-    	for(int row = 0; row < DIM; row++){
-    		int firstField = row*DIM;
-    		int lastField = row*DIM+(DIM-1);
-	    	if(field == firstField){
+    	for (int row = 0; row < DIM; row++) {
+    		int firstField = row * DIM;
+    		int lastField = row * DIM + (DIM - 1);
+	    	if (field == firstField) {
 	    		beatenFields.addAll(checkBeatFirstFieldRow(field, mark));
 	    	}
-	    	if(field > firstField && field < lastField){
+	    	if (field > firstField && field < lastField) {
 	    		beatenFields.addAll(checkBeatMiddleFieldsRow(field, mark));
 	    	}
-	    	if(field == lastField){
+	    	if (field == lastField) {
 	    		beatenFields.addAll(checkBeatLastFieldRow(field, mark));
 	    	}
     	}
     	return beatenFields;
     }
     
-	    /**
-	     * Returns a list with all the fields that are hit from a field in the first column for a certain Mark.
-	     */
-	    private List<Integer> checkBeatFirstFieldRow(int field, Mark mark){
-	    	List<Integer> beatenFields = new ArrayList<Integer>();
-	    	List<Integer> tmpFields = new ArrayList<Integer>();
-	    	for(int topDirection = 0; topDirection < 2 ; topDirection++){
-	    		int direction = DIM-topDirection;
-		    	for(int level = 1; level < DIM && checkField(-direction, field, level, false, true); level++){
-		    		int beatField = field-(direction*level);
-		    		tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-			   	tmpFields = new ArrayList<Integer>();
+    /**
+     * Returns a list with all the fields that are hit from a field
+	 * in the first column for a certain Mark.
+     */
+    private List<Integer> checkBeatFirstFieldRow(int field, Mark mark) {
+    	List<Integer> beatenFields = new ArrayList<Integer>();
+    	List<Integer> tmpFields = new ArrayList<Integer>();
+    	for (int topDirection = 0; topDirection < 2; topDirection++) {
+    		int direction = DIM - topDirection;
+	    	for (int level = 1; level < DIM &&
+	    							checkField(-direction, field, level, false, true); level++) {
+	    		int beatField = field - (direction * level);
+	    		tmpFields.add(beatField);
 	    	}
-		    for(int bottomDirection = 0; bottomDirection < 2; bottomDirection++){
-		    	int direction = DIM+bottomDirection;
-		    	for(int level = 1; level < DIM && checkField(direction, field, level, false, true); level++){
-		    		int beatField = field+(direction*level);
-		    			tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-		    }
-		    	for(int level = 1; level < DIM && checkField(RIGHT_DIRECTION, field, level, false, true); level++){
-		    		int beatField = field+level;
-			    	tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-	    	return beatenFields;
-	    }
-	    
-	    /**
-	     * Returns a list with all the fields that are hit from a field between the first and the last field of a row in the middle column for a certain Mark.
-	     */  
-	    private List<Integer> checkBeatMiddleFieldsRow(int field, Mark mark){
-	    	List<Integer> beatenFields = new ArrayList<Integer>();
-	    	List<Integer> tmpFields = new ArrayList<Integer>();
-	    	for(int topDirection = 0; topDirection < 3 ; topDirection++){
-	    		int direction = (DIM-1)+topDirection;
-		    	for(int level = 1; level < DIM && checkField(-direction, field, level, true, true); level++){
-		    		int beatField = field-(direction*level);
-		    		tmpFields.add(beatField);
-		    	}
-		    		beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-			   	tmpFields = new ArrayList<Integer>();
+	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+		   	tmpFields = new ArrayList<Integer>();
+    	}
+	    for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
+	    	int direction = DIM + bottomDirection;
+	    	for (int level = 1; level < DIM &&
+	    							checkField(direction, field, level, false, true); level++) {
+	    		int beatField = field + (direction * level);
+	    		tmpFields.add(beatField);
 	    	}
-		    for(int bottomDirection = 0; bottomDirection < 3; bottomDirection++){
-		    	int direction = (DIM+1)-bottomDirection;
-		    	for(int level = 1; level < DIM && checkField(direction, field, level, true, true); level++){
-		    		int beatField = field+(direction*level);
-		    		tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-		    }
-		    	for(int level = 1; level < DIM && checkField(LEFT_DIRECTION, field, level, true, false); level++){
-		    		int beatField = field-level;
-		    		tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-		    	for(int level = 1; level < DIM && checkField(RIGHT_DIRECTION, field, level, false, true); level++){
-		    		int beatField = field+level;
-			    	tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-	    	return beatenFields;
+	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+	    	tmpFields = new ArrayList<Integer>();
 	    }
-	    
-	    /**
-	     * Returns a list with all the fields that are hit from a field in the last field of a row for a certain Mark.
-	     */
-	    private List<Integer> checkBeatLastFieldRow(int field, Mark mark){
-	    	List<Integer> beatenFields = new ArrayList<Integer>();
-	    	List<Integer> tmpFields = new ArrayList<Integer>();
-	    	for(int topDirection = 0; topDirection < 2 ; topDirection++){
-	    		int direction = DIM+topDirection;
-		    	for(int level = 1; level < DIM && checkField(-direction, field, level, true, false); level++){
-		    		int beatField = field-(direction*level);
-		    		tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-			   	tmpFields = new ArrayList<Integer>();
+    	for (int level = 1; level < DIM &&
+    							checkField(RIGHT_DIRECTION, field, level, false, true); level++) {
+    		int beatField = field + level;
+	    	tmpFields.add(beatField);
+    	}
+    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+    	tmpFields = new ArrayList<Integer>();
+    	return beatenFields;
+    }
+    
+    /**
+     * Returns a list with all the fields that are hit from a field
+     * between the first and the last field of a row in the middle column for a certain Mark.
+     */  
+    private List<Integer> checkBeatMiddleFieldsRow(int field, Mark mark) {
+    	List<Integer> beatenFields = new ArrayList<Integer>();
+    	List<Integer> tmpFields = new ArrayList<Integer>();
+    	for (int topDirection = 0; topDirection < 3; topDirection++) {
+    		int direction = (DIM - 1) + topDirection;
+	    	for (int level = 1; level < DIM &&
+	    							checkField(-direction, field, level, true, true); level++) {
+	    		int beatField = field - (direction * level);
+	    		tmpFields.add(beatField);
 	    	}
-		    for(int bottomDirection = 0; bottomDirection < 2; bottomDirection++){
-		    	int direction = DIM-bottomDirection;
-		    	for(int level = 1; level < 8 && checkField(direction, field, level, true, false); level++){
-		    		int beatField = field+(direction*level);
-		    			tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-		    }
-		    	for(int level = 1; level < DIM && checkField(LEFT_DIRECTION, field, level, true, false); level++){
-		    		int beatField = field-level;
-		    		tmpFields.add(beatField);
-		    	}
-		    	beatenFields.addAll((checkTempFieldList(tmpFields, mark)));
-		    	tmpFields = new ArrayList<Integer>();
-	    	return beatenFields;
+	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+		   	tmpFields = new ArrayList<Integer>();
+    	}
+	    for (int bottomDirection = 0; bottomDirection < 3; bottomDirection++) {
+	    	int direction = (DIM + 1) - bottomDirection;
+	    	for (int level = 1; level < DIM &&
+	    							checkField(direction, field, level, true, true); level++) {
+	    		int beatField = field + (direction * level);
+	    		tmpFields.add(beatField);
+	    	}
+	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+	    	tmpFields = new ArrayList<Integer>();
 	    }
-	    
-	    /**
-	     * checkTempFieldList returns a list with all the fields till the first Mark is found in the input list
-	     * @param list a list with field indexes
-	     * @param mark the Mark of the current player
-	     * @return a list with fields
-	     */
-	    private List<Integer> checkTempFieldList(List<Integer> list, Mark mark){
-	    	List<Integer> returnList = new ArrayList<Integer>();
-	    	List<Mark> tmpMarkList = new ArrayList<Mark>();
-	    	
-	    	Iterator<Integer> iterator = list.iterator();
-			while (iterator.hasNext()){
-				tmpMarkList.add(getField(iterator.next()));
-			}
-	    	int firstMark = tmpMarkList.indexOf(mark);
-	    	if(firstMark != -1){
-	    		for(int index = 0; index < firstMark; index++){
-	    			returnList.add(list.get(index));
+    	for (int level = 1; level < DIM &&
+    							checkField(LEFT_DIRECTION, field, level, true, false); level++) {
+    		int beatField = field - level;
+    		tmpFields.add(beatField);
+    	}
+    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+    	tmpFields = new ArrayList<Integer>();
+    	for (int level = 1; level < DIM &&
+    						checkField(RIGHT_DIRECTION, field, level, false, true); level++) {
+    		int beatField = field + level;
+	    	tmpFields.add(beatField);
+    	}
+    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+    	tmpFields = new ArrayList<Integer>();
+    	return beatenFields;
+    }
+    
+    /**
+     * Returns a list with all the fields that are hit from a field
+     * in the last field of a row for a certain Mark.
+     */
+    private List<Integer> checkBeatLastFieldRow(int field, Mark mark) {
+    	List<Integer> beatenFields = new ArrayList<Integer>();
+    	List<Integer> tmpFields = new ArrayList<Integer>();
+    	for (int topDirection = 0; topDirection < 2; topDirection++) {
+    		int direction = DIM + topDirection;
+	    	for (int level = 1; level < DIM &&
+	    							checkField(-direction, field, level, true, false); level++) {
+	    		int beatField = field - (direction * level);
+	    		tmpFields.add(beatField);
+	    	}
+	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+		   	tmpFields = new ArrayList<Integer>();
+    	}
+	    for (int bottomDirection = 0; bottomDirection < 2; bottomDirection++) {
+	    	int direction = DIM - bottomDirection;
+	    	for (int level = 1; level < 8 &&
+	    							checkField(direction, field, level, true, false); level++) {
+	    		int beatField = field + (direction * level);
+	    		tmpFields.add(beatField);
+	    	}
+	    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+	    	tmpFields = new ArrayList<Integer>();
+	    }
+    	for (int level = 1; level < DIM &&
+    						checkField(LEFT_DIRECTION, field, level, true, false); level++) {
+    		int beatField = field - level;
+    		tmpFields.add(beatField);
+    	}
+    	beatenFields.addAll(checkTempFieldList(tmpFields, mark));
+    	tmpFields = new ArrayList<Integer>();
+    	return beatenFields;
+    }
+    
+    /**
+     * checkTempFieldList returns a list with all the fields
+     * till the first Mark is found in the input list.
+     * @param list a list with field indexes
+     * @param mark the Mark of the current player
+     * @return a list with fields
+     */
+    private List<Integer> checkTempFieldList(List<Integer> list, Mark mark) {
+    	List<Integer> returnList = new ArrayList<Integer>();
+    	List<Mark> tmpMarkList = new ArrayList<Mark>();
+    	
+    	Iterator<Integer> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			tmpMarkList.add(getField(iterator.next()));
+		}
+    	int firstMark = tmpMarkList.indexOf(mark);
+    	if (firstMark != -1) {
+    		for (int index = 0; index < firstMark; index++) {
+    			returnList.add(list.get(index));
+    		}
+    	}
+    	return returnList;
+    }
+    
+    /**
+     * checkField checks if the field exists, not empty is and checks
+     * if it is not in the first or last column if set.
+     * @param math is the math used for the asked field (direction)
+     * @param currField is the field from where it's checked
+     * @param level is the level of the field that will be checked
+     * @param left boolean if the left (first) column has to be checked
+     * @param right boolean if the right (last) column has to be checked
+     * @return true if the field exist, not empty is and not in the first of last column is if set
+     */
+    private boolean checkField(int math, int currField, int level, boolean left, boolean right) {
+    	return isField(currField + (math * level)) 
+    	    && !getField(currField + (math * level)).equals(Mark.EMPTY_)
+    	    && !checkCol(currField + (math * (level - 1)), left, right);
+    }
+    /**
+     * checkCol checks if a field is in the first or last column if set.
+     * @param field has to be checked
+     * @param left boolean if the left (first) column has to be checked
+     * @param right boolean if the right (last) column has to be checked
+     * @return true if the field is in the first or last column if set
+     */
+    private boolean checkCol(int field, boolean left, boolean right) {
+    	if (left) {
+	    	for (int i = 0; i < DIM; i++) {
+	    		if ((DIM * i) == field) {
+	    			return true;
 	    		}
 	    	}
-	    	return returnList;
-	    }
-	    
-	    /**
-	     * checkField checks if the field exists, not empty is and checks if it is not in the first or last column if set
-	     * @param math is the math used for the asked field (direction)
-	     * @param currField is the field from where it's checked
-	     * @param level is the level of the field that will be checked
-	     * @param left boolean if the left (first) column has to be checked
-	     * @param right boolean if the right (last) column has to be checked
-	     * @return true if the field exist, not empty is and not in the first of last column is if set
-	     */
-	    private boolean checkField(int math, int currField, int level, boolean left, boolean right){
-	    	return isField(currField+(math*level)) 
-	    	    && !getField(currField+(math*level)).equals(Mark.EMPTY_)
-	    	    && !checkCol(currField+(math*(level-1)), left, right);
-	    }
-	    /**
-	     * checkCol checks if a field is in the first or last column if set
-	     * @param field has to be checked
-	     * @param left boolean if the left (first) column has to be checked
-	     * @param right boolean if the right (last) column has to be checked
-	     * @return true if the field is in the first or last column if set
-	     */
-	    private boolean checkCol(int field, boolean left, boolean right){
-	    	if(left){
-		    	for(int i = 0; i < DIM; i++){
-		    		if((DIM*i) == field){
-		    			return true;
-		    		}
-		    	}
+    	}
+    	if (right) {
+	    	for (int i = 0; i < DIM; i++) {
+	    		if ((DIM * i + (DIM - 1)) == field) {
+	    			return true;
+	    		}
 	    	}
-	    	if(right){
-		    	for(int i = 0; i < DIM; i++){
-		    		if((DIM*i+(DIM-1)) == field){
-		    			return true;
-		    		}
-		    	}
-	    	}
-		    return false;
-	    }
+    	}
+	    return false;
+    }
 	    
 	/**
-	 * checkAllBeatingFields lists all the fields that can beat other fields for a certain mark
+	 * checkAllBeatingFields lists all the fields that can beat other fields for a certain mark.
 	 * @param mark the mark that has to be checked
 	 * @return a list of fields
 	 */
-    public List<Integer> checkAllBeatingFields(Mark mark){
+    public List<Integer> checkAllBeatingFields(Mark mark) {
     	List<Integer> beatingFields = new ArrayList<Integer>();
     	List<Integer> markFields = getAllCorrectFields();
-    	if(!markFields.isEmpty()){
+    	if (!markFields.isEmpty()) {
     		Iterator<Integer> iterator = markFields.iterator();
     		while (iterator.hasNext()) {
     			int beatingField = iterator.next();
-    			if(!checkBeat(beatingField, mark).isEmpty()){
+    			if (!checkBeat(beatingField, mark).isEmpty()) {
     				beatingFields.add(beatingField);
     			}
     		}
@@ -427,28 +443,28 @@ public class Board {
     }
     
 	/**
-	 * allAllowedFields lists all fields that the mark is allowed to play
+	 * allAllowedFields lists all fields that the mark is allowed to play.
 	 * @param mark the mark of the current player
 	 * @return lists with fields
 	 */
-    public List<Integer> allAllowedFields(Mark mark){
-    	if(!checkAllBeatingFields(mark).isEmpty()){
+    public List<Integer> allAllowedFields(Mark mark) {
+    	if (!checkAllBeatingFields(mark).isEmpty()) {
     		return checkAllBeatingFields(mark);
-    	}else{
+    	} else {
     		return getAllCorrectFields();
     	}
     }
     
     /**
-     * checkField checks if the given field is a correct field
+     * checkField checks if the given field is a correct field.
      * @param choice
      * @param mark
      * @return
      */
 	public boolean checkField(int choice, Mark mark) {
     	Iterator<Integer> iterator = allAllowedFields(mark).iterator();
-    	while(iterator.hasNext()){
-			if(iterator.next().equals(choice)){
+    	while (iterator.hasNext()) {
+			if (iterator.next().equals(choice)) {
 				return true;
 			}
 		}
@@ -456,14 +472,14 @@ public class Board {
 	}
 
 	/**
-	 * getAllFields lists all the fields of a certain mark
+	 * getAllFields lists all the fields of a certain mark.
 	 * @param mark of a player
 	 * @return a list of all the fields of a certain mark
 	 */
-    public List<Integer> getAllFields(Mark mark){
+    public List<Integer> getAllFields(Mark mark) {
     	List<Integer> markFields = new ArrayList<Integer>();
-    	for(int i = 0; i < fields.length; i++){
-    		if(getField(i).equals(mark)){
+    	for (int i = 0; i < fields.length; i++) {
+    		if (getField(i).equals(mark)) {
     			markFields.add(i);
     		}
     	}
@@ -503,11 +519,11 @@ public class Board {
     public Mark winner() {
     	Mark[] marks = {Mark._RED__, Mark.YELLOW, Mark.GREEN_, Mark._BLUE_};
     	List<Integer> scores = new ArrayList<Integer>();
-    	for(Mark mark: marks){
+    	for (Mark mark: marks) {
     		scores.add(getAllFields(mark).size());
     	}
     	int topScore = Collections.max(scores);
-    	if(!findDuplicateTopScores(scores, topScore)){
+    	if (!findDuplicateTopScores(scores, topScore)) {
     		int score = scores.indexOf(topScore);
     		return marks[score];
     	}
@@ -515,19 +531,19 @@ public class Board {
     }
     
     /**
-     * findDuplicateTopScores finds duplicates in the top score list to check for a draw
+     * findDuplicateTopScores finds duplicates in the top score list to check for a draw.
      * @param listContainingDuplicates list that has to be checked
      * @param Score score that has to be checked
      * @return
      */
-    public boolean findDuplicateTopScores(List<Integer> listContainingDuplicates, int Score){ 
-      int numberOfDuplicates = 0;
-      for (int i = 0; i < listContainingDuplicates.size(); i++){
-    	  if(listContainingDuplicates.get(i) == Score){
-    		  numberOfDuplicates += 1;
-    	  }
-      }
-      return numberOfDuplicates > 1;
+    public boolean findDuplicateTopScores(List<Integer> listContainingDuplicates, int score) { 
+		int numberOfDuplicates = 0;
+		for (int i = 0; i < listContainingDuplicates.size(); i++) {
+			if (listContainingDuplicates.get(i) == score) {
+				numberOfDuplicates += 1;
+			}
+		}
+		return numberOfDuplicates > 1;
     }
     /**
      * Returns a String representation of this board. In addition to the current
@@ -536,13 +552,13 @@ public class Board {
      * @return the game situation as String
      */
     public String toString() {
-    	int Integer = String.valueOf((DIM*DIM)-1).length();
+    	int integer = String.valueOf((DIM * DIM) - 1).length();
     	String rowLine = "";
-    	String DecimalFormat = "";
+    	String decimalFormat = "";
     	String board = "";
-    	for(int i =0;  i < Integer; i++){
+    	for (int i = 0;  i < integer; i++) {
     		rowLine += "-";
-    		DecimalFormat += "0";
+    		decimalFormat += "0";
     	}
     	
     	for (int row = 0; row < DIM; row++) {
@@ -555,9 +571,8 @@ public class Board {
             }
             String rowTextSecond = "";
             for (int col = 0; col < DIM; col++) {
-            	DecimalFormat form = new DecimalFormat(DecimalFormat);
-            	//String.format("%02d", myNumber)
-            	rowTextSecond = rowTextSecond + " " + form.format((DIM * row + col)) + " ";
+            	DecimalFormat form = new DecimalFormat(decimalFormat);
+            	rowTextSecond = rowTextSecond + " " + form.format(DIM * row + col) + " ";
                 if (col < DIM - 1) {
                 	rowTextSecond = rowTextSecond + "|";
                 }
@@ -610,28 +625,28 @@ public class Board {
     }
     
     /**
-     * setBeatenFields sets a field to the new mark after it's being beaten
+     * setBeatenFields sets a field to the new mark after it's being beaten.
      * @param fieldIndex index of the field
      * @param mark to which mark it has to be set
      */
-    public void setbeatenFields(int fieldIndex, Mark mark) {
+    public void setBeatenFields(int fieldIndex, Mark mark) {
     	Iterator<Integer> iterator = checkBeat(fieldIndex, mark).iterator();
-    	while(iterator.hasNext()){
+    	while (iterator.hasNext()) {
     		fields[iterator.next()] = mark;
     	}
     }
     
     /**
-     * setMiddleFields sets the four fields in the middle to the corresponding colors
+     * setMiddleFields sets the four fields in the middle to the corresponding colors.
      */
-    public void setMiddleFields(){
-    	int midCol1 = DIM/2-1;
-    	int midCol2 = (DIM/2);
-    	int midRow1 = ((DIM/2)*DIM)-DIM;
-    	int midRow2 = (DIM/2)*DIM;
-        setField((midRow1 + midCol1), Mark._RED__);
-        setField((midRow1 + midCol2), Mark.YELLOW);
-        setField((midRow2 + midCol1), Mark.GREEN_);
-        setField((midRow2 + midCol2), Mark._BLUE_);
+    public void setMiddleFields() {
+    	int midCol1 = DIM / 2 - 1;
+    	int midCol2 = DIM / 2;
+    	int midRow1 = ((DIM / 2) * DIM) - DIM;
+    	int midRow2 = (DIM / 2) * DIM;
+        setField(midRow1 + midCol1, Mark._RED__);
+        setField(midRow1 + midCol2, Mark.YELLOW);
+        setField(midRow2 + midCol1, Mark.GREEN_);
+        setField(midRow2 + midCol2, Mark._BLUE_);
     }
 }

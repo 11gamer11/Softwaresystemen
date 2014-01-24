@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import board.Board;
 import board.Mark;
-import game.Player;
 
 /**
  * Class for maintaining a human player in Tic Tac Toe. Module 2 lab assignment

@@ -71,7 +71,7 @@ public abstract class Player {
     public void makeMove(Board board) {
         int keuze = determineMove(board);
         board.setField(keuze, getMark());
-        board.setbeatenFields(keuze, getMark());
+        board.setBeatenFields(keuze, getMark());
     }
 
 }

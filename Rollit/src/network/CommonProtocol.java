@@ -29,39 +29,40 @@ public class CommonProtocol {
     public static final int SUPPORTS_CHALLENGE = 2;
 
 	/**
-	* SUPPORTS_CHAT | SUPPORTS_CHALLENGE
+	* SUPPORTS_CHAT | SUPPORTS_CHALLENGE.
 	*/
     public static final int SUPPORTS_CHAT_CHALLENGE = 3;
 
 	/**
-	* String-waarde voor true in het protocol
+	* String-waarde voor true in het protocol.
 	*/
     public static final String T_BOOLEAN_TRUE = "true";
 
 	/**
-	* String-waarde voor false in het protocol
+	* String-waarde voor false in het protocol.
 	*/
     public static final String T_BOOLEAN_FALSE = "false";
 
 	/**
-	* Versie in de handshake voor een standaardimplementatie
+	* Versie in de handshake voor een standaardimplementatie.
 	*/
     public static final String VERSION_NONE = "Standaard";
 
 	/**
-	* Einde van regels
+	* Einde van regels.
 	*/
     public static final String LINE_ENDING = "\r\n";
 
 	/**
-	* Delimiter van commando's
+	* Delimiter van commando's.
 	*/
     public static final String COMMAND_DELIMITER = " ";
 
 	/**
 	* Alle characters van base64 in volgorde.
 	*/
-    private static final String BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    private static final String BASE64_CHARS = 
+    							 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     private static final char BASE64_PADDING = '=';
 
@@ -100,8 +101,8 @@ public class CommonProtocol {
         boolean first = true;
         String command = "";
 
-        for(String argument : commandParts) {
-            if(!first) {
+        for (String argument : commandParts) {
+            if (!first) {
                 command += " ";
             }
 
@@ -127,14 +128,15 @@ public class CommonProtocol {
     }
 
 	/**
-	* Converteert bytes naar een Base64-String. Er is namelijk geen standaardmethode in Java om dit te doen.
+	* Converteert bytes naar een Base64-String.
+	* Er is namelijk geen standaardmethode in Java om dit te doen.
 	* @param data De bytes
 	* @return De String
 	*/
     public String base64Encode(byte[] data) {
         String result = "";
 
-        for(int i = 0; i < data.length / 3; i++) {
+        for (int i = 0; i < data.length / 3; i++) {
             byte byte1 = data[i * 3], byte2 = data[i * 3 + 1], byte3 = data[i * 3 + 2];
 
             result += BASE64_CHARS.charAt(byte1 / 4);
@@ -143,14 +145,14 @@ public class CommonProtocol {
             result += BASE64_CHARS.charAt(byte3 % 64);
         }
 
-        if(data.length % 3 == 1) {
+        if (data.length % 3 == 1) {
             byte byte1 = data[data.length - 1];
 
             result += BASE64_CHARS.charAt(byte1 / 4);
             result += BASE64_CHARS.charAt((byte1 % 4) * 16);
             result += BASE64_PADDING;
             result += BASE64_PADDING;
-        } else if(data.length % 3 == 2) {
+        } else if (data.length % 3 == 2) {
             byte byte1 = data[data.length - 2], byte2 = data[data.length - 1];
 
             result += BASE64_CHARS.charAt(byte1 / 4);
@@ -170,18 +172,21 @@ public class CommonProtocol {
     public byte[] base64Decode(String data) {
         byte[] result = new byte[data.length() / 4 * 3];
 
-        for(int i = 0; i < data.length() / 4; i++) {
+        for (int i = 0; i < data.length() / 4; i++) {
             char char1 = data.charAt(i * 4), char2 = data.charAt(i * 4 + 1),
                     char3 = data.charAt(i * 4 + 2), char4 = data.charAt(i * 4 + 3);
 
-            result[i * 3] = (byte) (BASE64_CHARS.indexOf(char1) * 4 + BASE64_CHARS.indexOf(char2) / 16);
-            result[i * 3 + 1] = (byte) ((BASE64_CHARS.indexOf(char2) % 16) * 16 + BASE64_CHARS.indexOf(char3) / 4);
-            result[i * 3 + 2] = (byte) (((BASE64_CHARS.indexOf(char3) + 4) % 4) * 64 + BASE64_CHARS.indexOf(char4));
+            result[i * 3] = (byte) (BASE64_CHARS.indexOf(char1) * 4 + 
+            													BASE64_CHARS.indexOf(char2) / 16);
+            result[i * 3 + 1] = (byte) ((BASE64_CHARS.indexOf(char2) % 16) * 16 +
+            													BASE64_CHARS.indexOf(char3) / 4);
+            result[i * 3 + 2] = (byte) (((BASE64_CHARS.indexOf(char3) + 4) % 4) * 64 +
+            													BASE64_CHARS.indexOf(char4));
         }
 
-        if(data.charAt(data.length() - 2) == '=') {
+        if (data.charAt(data.length() - 2) == '=') {
             return Arrays.copyOfRange(result, 0, result.length - 2);
-        } else if(data.charAt(data.length() - 1) == '=') {
+        } else if (data.charAt(data.length() - 1) == '=') {
             return Arrays.copyOfRange(result, 0, result.length - 1);
         } else {
             return result;
@@ -189,7 +194,7 @@ public class CommonProtocol {
     }
 
 	/**
-	* Converteert een String van de ss-security-server naar een {@code PrivateKey}
+	* Converteert een String van de ss-security-server naar een {@code PrivateKey}.
 	* @param data De data van de ss-security-server
 	* @return De {@code PrivateKey}
 	* @throws InvalidKeySpecException Als de data van de ss-security-server niet klopt.
@@ -205,7 +210,7 @@ public class CommonProtocol {
     }
 
 	/**
-	* Signt een bericht met een {@code PrivateKey} en retourneert het resultaat in Base64
+	* Signt een bericht met een {@code PrivateKey} en retourneert het resultaat in Base64.
 	* @param message Het bericht
 	* @param key De {@code PrivateKey}
 	* @return Het resultaat in Base64
@@ -225,7 +230,7 @@ public class CommonProtocol {
     }
 
 	/**
-	* Converteert een String van de ss-security-server naar een {@code PublicKey}
+	* Converteert een String van de ss-security-server naar een {@code PublicKey}.
 	* @param data De data van de ss-security-server
 	* @return De {@code PublicKey}
 	* @throws InvalidKeySpecException
@@ -248,7 +253,8 @@ public class CommonProtocol {
 	* @return Of het signen goed is gegaan
 	* @throws InvalidKeyException
 	*/
-    public boolean verify(String message, String signedMessage, PublicKey key) throws InvalidKeyException {
+    public boolean verify(String message,
+    							String signedMessage, PublicKey key) throws InvalidKeyException {
         try {
             Signature signature = Signature.getInstance("SHA1withRSA");
             signature.initVerify(key);

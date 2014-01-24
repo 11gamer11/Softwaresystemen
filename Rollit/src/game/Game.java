@@ -1,16 +1,15 @@
 package game;
 
+import java.util.Observable;
 import java.util.Scanner;
 
 import board.Board;
-import game.Player;
+import board.Mark;
 
 @SuppressWarnings("resource")
-public class Game {
+public class Game extends Observable {
 
     // -- Instance variables -----------------------------------------
-
-    public static final int NUMBER_PLAYERS = 4;
 
     /*@
        private invariant board != null;
@@ -53,14 +52,10 @@ public class Game {
      * @param s4 
      * @param s3 
      */
-    public Game(Player s0, Player s1, Player s2, Player s3) {
-        board = new Board();
-        players = new Player[NUMBER_PLAYERS];
-        players[0] = s0;
-        players[1] = s1;
-        players[2] = s2;
-        players[3] = s3;
-        current = 0;
+    public Game(Player[] playerList) {
+        this.board = new Board();
+        this.players = playerList;
+        this.current = 0;
     }
 
     // -- Commands ---------------------------------------------------
@@ -74,6 +69,7 @@ public class Game {
         boolean doorgaan = true;
         while (doorgaan) {
             reset();
+            doorgaan = readBoolean("\n> Start? (y/n)?", "y", "n");
             play();
             doorgaan = readBoolean("\n> Play another time? (y/n)?", "y", "n");
         }
@@ -107,7 +103,7 @@ public class Game {
      * Resets the game. <br>
      * The board is emptied and player[0] becomes the current player.
      */
-    private void reset() {
+    public void reset() {
         current = 0;
         board.reset();
     }
@@ -124,7 +120,6 @@ public class Game {
         update();
         while (!board.gameOver()) {
             players[current].makeMove(board);
-            current = (current + 1) % NUMBER_PLAYERS;
             update();
         }
         printResult();
@@ -152,8 +147,8 @@ public class Game {
     private void printResult() {
         if (board.winner() != null) {
         	Player winner = null;
-        	for(int i = 0; i < Game.NUMBER_PLAYERS; i++){
-        		if(players[i].getMark().equals(board.winner())){
+        	for (int i = 0; i < players.length; i++) {
+        		if (players[i].getMark().equals(board.winner())) {
         			winner = players[i];
         		}
         	}
@@ -163,4 +158,33 @@ public class Game {
             System.out.println("Draw. There is no winner!");
         }
     }
+
+	public Board getBoard() {
+		return board;
+	}
+
+	public void takeTurn(int i) {
+		board.setField(i, players[current].getMark());
+		board.setBeatenFields(i, players[current].getMark());
+        current = (current + 1) % players.length;
+        setChanged();
+        notifyObservers();
+	}
+
+	public Mark getCurrentMark() {
+		return players[current].getMark();
+	}
+	
+	public Player getCurrentPlayer() {
+		return players[current];
+	}
+	
+	public Player getPlayer(Mark mark) {
+		for (int i = 0; i < players.length; i++) {
+			if (players[i].getMark().equals(mark)) {
+				return players[i];
+			}
+		}
+		return null;
+	}
 }

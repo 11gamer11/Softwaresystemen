@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 
 import info.Logging;
 
-public class InputHandler implements Runnable {
+public class InputServerHandler implements Runnable {
         
     private Server parentServer = null;
     private Thread thread = null;
@@ -20,22 +20,25 @@ public class InputHandler implements Runnable {
     private BufferedReader consoleInReader = new BufferedReader(consoleInStream);
     private BufferedWriter consoleOutWriter = new BufferedWriter(consoleOutStream);
 
-    public InputHandler(Server server) {
+    public InputServerHandler(Server server) {
         this.parentServer = server;
-        Logging.log(0, "InputHandler making own thread");
+        
+        Logging.log(Logging.DEBUG, "InputHandler making own thread");
         this.thread = new Thread(this);
         this.thread.start();
     }
     
     public void listen() {
-        Logging.log(0, "Started listening to console input");
+        Logging.log(Logging.DEBUG, "Started listening to console input");
         while (!finished) {
             try {
                 this.message = this.consoleInReader.readLine();
                 this.consoleOutWriter.write(this.message);
-                this.parentServer.handleInput(this.message);
+                if (!this.message.equals("")) {
+                	this.parentServer.handleInput(this.message);
+                }
             } catch (IOException e) {
-                Logging.log(3, "Could not send messages to client, ERROR: " + e.getMessage());
+                Logging.log(Logging.ERROR, "Could process message, ERROR: " + e.getMessage());
             }
         }
     }

@@ -27,7 +27,7 @@ public class Main {
         for(int i = 0; i < 36; i++){
         	System.out.println("Veld "+i+" = ("+board.rowcol(i)[0]+","+board.rowcol(i)[1]+ ")");
         }*/
-       
+        
         Player s1 = createPlayer(args[0], Mark._RED__);
         Player s2 = createPlayer(args[1], Mark.GREEN_);
         Player s3 = createPlayer(args[2], Mark.YELLOW);
@@ -39,8 +39,6 @@ public class Main {
         //Game spel = new Game(s1, s2, s3, s4);
         //spel.start();
     	/*Board board = new Board();*/
-    	
-    	
-    	
+        
     }
 }

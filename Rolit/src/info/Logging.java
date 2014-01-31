@@ -1,28 +1,54 @@
 package info;
 
 public class Logging {
-    private static final int VIEWLEVEL = 0;
+	private static final int VIEWLEVEL = 0;
+	
+	public static final int DEBUG = 0;
+	public static final int COMMAND = 1;
+	public static final int INFO = 2;
+	public static final int WARNING = 3;
+	public static final int ERROR = 4;
+	public static final int MSG = 5;
+	public static final int INCOMMING_CMD = 6;
+	public static final int OUTGOING_CMD = 7;
+	public static final int BROADCAST = 8;
+	public static final int QUOTE = 9;
+	
+	
+	
 
     public static void log(int level, String string) {
         String levelString;
         switch(level) {
-            case 0:
+            case DEBUG:
                 levelString = "DEBUG";
                 break;
-            case 1:
+            case COMMAND:
+                levelString = "COMMAND";
+                break;
+            case INFO:
                 levelString = "INFO";
                 break;
-            case 2:
+            case WARNING:
             	levelString = "WARNING";
                 break;
-        	case 3:
+        	case ERROR:
             	levelString = "ERROR";
                 break;
-            case 4:
+            case MSG:
                 levelString = "MSG";
                 break;
-            case 5:
-                levelString = "COMMAND";
+            case INCOMMING_CMD:
+                levelString = "INCOMMING-CMD";
+                break;
+            case OUTGOING_CMD:
+                levelString = "OUTGOING-CMD";
+                break;
+            case BROADCAST:
+                levelString = "BROADCAST";
+                break;
+            case QUOTE:
+                levelString = "QUOTE";
                 break;
             default:
                 levelString = "INFO";

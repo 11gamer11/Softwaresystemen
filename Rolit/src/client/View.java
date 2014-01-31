@@ -117,8 +117,8 @@ public class View extends Frame implements Observer {
 		int numArgs = args.length;
 		Player[] players = new Player[numArgs];
 		
-		Player s1 = createPlayer(args[0], Mark._RED__);
-		Player s2 = createPlayer(args[1], Mark.GREEN_);
+		Player s1 = createPlayer(args[0], Mark.RED);
+		Player s2 = createPlayer(args[1], Mark.GREEN);
 		players[0] = s1;
 		players[1] = s2;
 		System.out.println("Speler 1: " + s1.getName() + ", " + s1.getMark());
@@ -129,7 +129,7 @@ public class View extends Frame implements Observer {
 		   	System.out.println("Speler 3: " + s3.getName() + ", " + s3.getMark());
 		}
 		if (numArgs > 3) {
-			Player s4 = createPlayer(args[3], Mark._BLUE_);
+			Player s4 = createPlayer(args[3], Mark.BLUE);
 		    players[3] = s4;
 		   	System.out.println("Speler 4: " + s4.getName() + ", " + s4.getMark());
 		}

@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import board.Board;
+
 public class Controller implements ActionListener {
 	
 	public JButton[] buttons;
@@ -22,7 +24,7 @@ public class Controller implements ActionListener {
 		this.view = newView;
 		this.buttons = buttonList;
 		this.again = againButton;
-		this.dim = game.getBoard().getDim();
+		this.dim = Board.getDim();
 		
 		for (int i = 0; i < dim * dim; i++) {
 			buttons[i].addActionListener(this);

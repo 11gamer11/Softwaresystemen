@@ -17,6 +17,7 @@ import javax.swing.JMenuItem;
  * so the GUI buttons are still responsive to user actions.
  * @author: Martin Kalin
  */
+@SuppressWarnings("serial")
 public class MandelSet {
 	public MandelSet() {
 		win = new JFrame("Mandelbrot Set");

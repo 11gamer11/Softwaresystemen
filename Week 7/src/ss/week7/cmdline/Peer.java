@@ -29,14 +29,23 @@ public class Peer implements Runnable {
 	 * @param   nameArg name of the Peer-proces
 	 * @param   sockArg Socket of the Peer-proces
 	 */
-	public Peer(String nameArg, Socket sockArg) throws IOException
-	{
+	public Peer(String nameArg, Socket sockArg) throws IOException{
+		
 	}
 
 	/**
 	 * Reads strings of the stream of the socket-connection and writes the characters to the default output
 	 */
 	public void run() {
+		while(true){
+			String message;
+			try {
+				message = in.readLine();
+				System.out.println(message);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 
 
@@ -44,12 +53,14 @@ public class Peer implements Runnable {
 	 * Reads a string from the console and sends this string over the socket-connection to the Peer proces. On Peer.EXIT the method ends
 	 */
 	public void handleTerminalInput() {
+		
 	}
 
 	/**
 	 * Closes the connection, the sockets will be terminated
 	 */
 	public void shutDown() {
+		
 	}
 
 	/**  returns name of the peer object*/

@@ -1,5 +1,8 @@
 package ss.week5;
 
+import ss.week5.ComputerPlayer;
+import ss.week5.NaiveStrategy;
+
 
 /**
  * Executable class for the game Tic Tac Toe. The game can be played against the

@@ -1,5 +1,9 @@
 package ss.week5;
 
+import ss.week5.Board;
+import ss.week5.Mark;
+import ss.week5.Player;
+
 public class ComputerPlayer extends Player{
 	
 	Mark mark;

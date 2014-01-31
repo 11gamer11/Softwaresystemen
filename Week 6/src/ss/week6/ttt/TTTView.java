@@ -32,6 +32,9 @@ public class TTTView extends Frame implements Observer{
 				}else{
 					label.setText("OO has won the game");
 				}
+				for(int i = 0; i < 9; i++){
+						buttons[i].setEnabled(false);
+				}
 			}else{
 				label.setText("Draw");
 			}
